@@ -1,16 +1,14 @@
-# movie_search_app
+# Movie Search App
 
-A new Flutter project.
+A Flutter project with the intent of practicing the following skills:
 
-## Getting Started
+- [ ] Comunicação com APIs
+- [ ] Navegação entre Telas
+- [ ] Basic Layouting
+- [ ] Async/Await
 
-This project is a starting point for a Flutter application.
+## What it does?
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- The app offers a search bar, where the user can search for a movie title they want to find.
+- The app displays the search results as a clickable list, where the user can see more details about the movies.
+- Uppon clicking, the user navigates to another page with details about the selected movie.
