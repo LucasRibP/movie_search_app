@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:movie_search_app/data/movie.dart';
 import 'package:movie_search_app/search_bar.dart';
 import 'package:movie_search_app/search_list.dart';
 import "dart:async";
+import 'package:http/http.dart' as http;
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -11,7 +15,9 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  String errorMessage = "";
   Timer? _debounceMovieSearch;
+  Future<List<Movie>>? movieList;
 
   // Keys shouldn't be left visible on public projects, I'm only
   // leaving this one here because it's a free API and there are no
@@ -21,13 +27,45 @@ class _SearchPageState extends State<SearchPage> {
   void _onSearchBarTextChange(String text) {
     if (_debounceMovieSearch?.isActive ?? false) _debounceMovieSearch?.cancel();
     _debounceMovieSearch = Timer(const Duration(milliseconds: 500), () {
-      requestMovieSearch(text);
+      setState(() {
+        movieList = fetchMovieSearch(text);
+      });
     });
   }
 
-  void requestMovieSearch(String searchQuery) {
+  Future<List<Movie>> fetchMovieSearch(String searchQuery) async {
     String query =
         "http://www.omdbapi.com/?apikey=$_omdbKey&s=$searchQuery&type=movie";
+    String err = "";
+    List<Movie> movieList = [];
+
+    final response = await http.get(Uri.parse(query));
+
+    try {
+      final json = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        if (json["Response"] == "False") {
+          err = json["Error"];
+        }
+        if (json["Response"] == "True") {
+          List results = json["Search"];
+          movieList = results
+              .map((movie) => Movie.fromJson(movie))
+              .toList(growable: false);
+        }
+      } else {
+        err =
+            "Your search results were not received - Status code: ${response.statusCode} :(";
+      }
+    } catch (e) {
+      err = "Error decoding server response - $e";
+    }
+
+    setState(() {
+      errorMessage = err;
+    });
+    return movieList;
   }
 
   @override
