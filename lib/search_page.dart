@@ -12,7 +12,13 @@ class SearchPage extends StatelessWidget {
         title: const Text("MovieSearch"),
       ),
       body: Column(
-        children: [SearchBar(), SearchList()],
+        children: [
+          Container(
+            child: SearchBar(),
+            margin: const EdgeInsets.all(12),
+          ),
+          SearchList()
+        ],
       ),
     );
   }

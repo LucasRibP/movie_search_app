@@ -1,15 +1,17 @@
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
+class SearchBar extends StatelessWidget {
+  SearchBar({Key? key}) : super(key: key);
+  final inputController = TextEditingController();
 
-  @override
-  State<SearchBar> createState() => _SearchBarState();
-}
-
-class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return TextField(
+      controller: inputController,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: "What movie do you want do search?"),
+    );
   }
 }
