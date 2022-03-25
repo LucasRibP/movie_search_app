@@ -84,30 +84,33 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Column(
         children: [
-          Container(
-            child: SearchBar(onTextChange: _onSearchBarTextChange),
-            margin: const EdgeInsets.all(12),
+          Expanded(
+            flex: 0,
+            child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: SearchBar(onTextChange: _onSearchBarTextChange)),
           ),
-          Container(
-              margin: const EdgeInsets.symmetric(horizontal: 15),
-              child: (curSearchQuery.isEmpty)
-                  ? const Text("Search for something!")
-                  : FutureBuilder(
-                      future: movieList,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          List<Movie> movies = snapshot.data as List<Movie>;
-                          if (movies.isEmpty) {
-                            return Text(errorMessage);
-                          } else {
-                            return SearchList(movies: movies);
-                          }
-                        } else if (snapshot.hasError) {
-                          return Text("${snapshot.error}");
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      }))
+          Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: (curSearchQuery.isEmpty)
+                      ? const Text("Search for something!")
+                      : FutureBuilder(
+                          future: movieList,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<Movie> movies = snapshot.data as List<Movie>;
+                              if (movies.isEmpty) {
+                                return Text(errorMessage);
+                              } else {
+                                return SearchList(movies: movies);
+                              }
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          })))
         ],
       ),
     );
