@@ -88,25 +88,26 @@ class _SearchPageState extends State<SearchPage> {
             child: SearchBar(onTextChange: _onSearchBarTextChange),
             margin: const EdgeInsets.all(12),
           ),
-          if (curSearchQuery.isEmpty)
-            Container(child: Text("Search for something!"))
-          else
-            FutureBuilder(
-                future: movieList,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    List<Movie> movies = snapshot.data as List<Movie>;
-                    if (movies.isEmpty) {
-                      return Text(errorMessage);
-                    } else {
-                      return SearchList(movies: movies);
-                    }
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                })
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: (curSearchQuery.isEmpty)
+                  ? const Text("Search for something!")
+                  : FutureBuilder(
+                      future: movieList,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<Movie> movies = snapshot.data as List<Movie>;
+                          if (movies.isEmpty) {
+                            return Text(errorMessage);
+                          } else {
+                            return SearchList(movies: movies);
+                          }
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      }))
         ],
       ),
     );
