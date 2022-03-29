@@ -20,12 +20,16 @@ class MainRouterDelegate extends RouterDelegate<MainPath>
     notifyListeners();
   }
 
+  onMovieTap(Movie movie) {
+    selectedMovie = movie;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
       pages: [
-        const SearchPage(),
+        SearchPage(onMovieTap: onMovieTap),
         if (selectedMovie != null) DetailsPage(movie: selectedMovie)
       ],
       onPopPage: (route, result) {

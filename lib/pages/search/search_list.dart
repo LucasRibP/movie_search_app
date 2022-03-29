@@ -3,24 +3,29 @@ import 'package:movie_search_app/data/movie.dart';
 
 class SearchList extends StatelessWidget {
   final List<Movie> movies;
-  const SearchList({Key? key, required this.movies}) : super(key: key);
+  final ValueChanged<Movie> onMovieTap;
+  const SearchList({Key? key, required this.movies, required this.onMovieTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
-      children: movies.map((movie) => _SearchListItem(movie: movie)).toList(),
+      children: movies
+          .map((movie) => _SearchListItem(
+                movie: movie,
+                onTap: () => onMovieTap(movie),
+              ))
+          .toList(),
     );
   }
 }
 
 class _SearchListItem extends StatelessWidget {
   final Movie movie;
-  const _SearchListItem({Key? key, required this.movie}) : super(key: key);
-
-  onTapHandler() {
-    print("${movie.title} was tapped");
-  }
+  final void Function() onTap;
+  const _SearchListItem({Key? key, required this.movie, required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class _SearchListItem extends StatelessWidget {
         elevation: 2,
         child: InkWell(
           splashColor: const Color.fromARGB(255, 167, 37, 27).withAlpha(30),
-          onTap: onTapHandler,
+          onTap: onTap,
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
             child: Row(

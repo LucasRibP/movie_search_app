@@ -8,7 +8,8 @@ import "dart:async";
 import 'package:http/http.dart' as http;
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  final ValueChanged<Movie> onMovieTap;
+  const SearchScreen({Key? key, required this.onMovieTap}) : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -103,7 +104,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               if (movies.isEmpty) {
                                 return Text(errorMessage);
                               } else {
-                                return SearchList(movies: movies);
+                                return SearchList(
+                                    movies: movies,
+                                    onMovieTap: widget.onMovieTap);
                               }
                             } else if (snapshot.hasError) {
                               return Text("${snapshot.error}");
