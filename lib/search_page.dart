@@ -108,7 +108,8 @@ class _SearchPageState extends State<SearchPage> {
                             } else if (snapshot.hasError) {
                               return Text("${snapshot.error}");
                             } else {
-                              return const CircularProgressIndicator();
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             }
                           })))
         ],
