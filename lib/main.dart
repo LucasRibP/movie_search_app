@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:movie_search_app/navigation/main_router_delegate.dart';
 import 'package:movie_search_app/navigation/main_router_parser.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 void main() {
+  setUrlStrategy(PathUrlStrategy());
   runApp(const MyApp());
 }
 
