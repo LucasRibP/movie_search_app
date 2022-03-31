@@ -20,6 +20,12 @@ class MainRouterDelegate extends RouterDelegate<MainPath>
     notifyListeners();
   }
 
+  bool show404 = false;
+
+  @override
+  MainPath get currentConfiguration =>
+      MainPath(imdbId: selectedMovie?.imdbId, isUnknown: show404);
+
   onMovieTap(Movie movie) {
     selectedMovie = movie;
   }
@@ -41,5 +47,21 @@ class MainRouterDelegate extends RouterDelegate<MainPath>
   }
 
   @override
-  Future<void> setNewRoutePath(configuration) async {}
+  Future<void> setNewRoutePath(MainPath configuration) async {
+    if (configuration.isHomePage) {
+      show404 = false;
+      selectedMovie = null;
+    } else if (configuration.isDetailsPage) {
+      show404 = false;
+      selectedMovie = Movie(
+          title: "",
+          year: "",
+          imdbId: configuration.imdbId ?? "",
+          poster: "",
+          hasNoCachedData: true);
+    } else if (configuration.isUnknownPage) {
+      show404 = true;
+    }
+    return;
+  }
 }

@@ -13,7 +13,6 @@ class MainRouterParser extends RouteInformationParser<MainPath> {
       final first = uri.pathSegments[0].toLowerCase();
 
       if (first == "home") return MainPath.home();
-      return MainPath.unknown();
     }
 
     if (uri.pathSegments.length == 2) {
@@ -21,7 +20,6 @@ class MainRouterParser extends RouteInformationParser<MainPath> {
       final second = uri.pathSegments[1].toLowerCase();
 
       if (first == "movie") return MainPath.details(second);
-      return MainPath.unknown();
     }
     return MainPath.unknown();
   }
