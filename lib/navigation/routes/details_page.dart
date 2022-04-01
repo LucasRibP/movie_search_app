@@ -3,10 +3,10 @@ import 'package:movie_search_app/data/movie.dart';
 import 'package:movie_search_app/pages/details/details_screen.dart';
 
 class DetailsPage extends Page {
-  final Movie? movie;
+  final Movie movie;
 
   DetailsPage({required this.movie})
-      : super(key: ValueKey("mv:${movie?.imdbId ?? "unknown"}"));
+      : super(key: ValueKey("mv:${movie.imdbId}"));
 
   @override
   Route createRoute(BuildContext context) {

@@ -12,6 +12,12 @@ class Movie {
       required this.poster,
       this.hasNoCachedData = false});
 
+  const Movie.fromImdbId(this.imdbId)
+      : title = "",
+        year = "",
+        poster = "",
+        hasNoCachedData = true;
+
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
         title: json["Title"],

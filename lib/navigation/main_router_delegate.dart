@@ -32,11 +32,12 @@ class MainRouterDelegate extends RouterDelegate<MainPath>
 
   @override
   Widget build(BuildContext context) {
+    Movie? curSelectedMovie = selectedMovie;
     return Navigator(
       key: navigatorKey,
       pages: [
         SearchPage(onMovieTap: onMovieTap),
-        if (selectedMovie != null) DetailsPage(movie: selectedMovie)
+        if (curSelectedMovie != null) DetailsPage(movie: curSelectedMovie)
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) return false;
@@ -53,12 +54,7 @@ class MainRouterDelegate extends RouterDelegate<MainPath>
       selectedMovie = null;
     } else if (configuration.isDetailsPage) {
       show404 = false;
-      selectedMovie = Movie(
-          title: "",
-          year: "",
-          imdbId: configuration.imdbId ?? "",
-          poster: "",
-          hasNoCachedData: true);
+      selectedMovie = Movie.fromImdbId(configuration.imdbId ?? "");
     } else if (configuration.isUnknownPage) {
       show404 = true;
     }

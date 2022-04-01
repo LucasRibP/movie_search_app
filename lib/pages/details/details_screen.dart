@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:movie_search_app/data/movie.dart';
 import 'package:movie_search_app/data/movie_details.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie_search_app/pages/details/details_list.dart';
 
 class DetailsScreen extends StatefulWidget {
-  final Movie? movie;
+  final Movie movie;
   const DetailsScreen({Key? key, required this.movie}) : super(key: key);
 
   @override
@@ -14,10 +15,12 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  late Future<MovieDetails?> movieDetails;
   String? errorMessage;
+
   @override
   void initState() {
-    fetchMovieDetails();
+    movieDetails = fetchMovieDetails();
     super.initState();
   }
 
@@ -27,8 +30,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final String _omdbKey = "df4ec22f";
 
   Future<MovieDetails?> fetchMovieDetails() async {
-    String? imdbId = widget.movie?.imdbId;
-    if (imdbId == null) {
+    String imdbId = widget.movie.imdbId;
+    if (imdbId.isEmpty) {
       setState(() {
         errorMessage = "The selected movie has no imdbId";
       });
@@ -63,16 +66,61 @@ class _DetailsScreenState extends State<DetailsScreen> {
     setState(() {
       errorMessage = err;
     });
-    print(movieDetails?.title);
     return movieDetails;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.movie?.imdbId ?? ""),
-      ),
-    );
+    return FutureBuilder(
+        future: movieDetails,
+        builder: ((context, snapshot) {
+          if (widget.movie.hasNoCachedData) {
+            if (snapshot.hasData) {
+              MovieDetails details = snapshot.data as MovieDetails;
+              return Scaffold(
+                appBar:
+                    AppBar(title: Text("${details.title} - ${details.year}")),
+                body: SingleChildScrollView(
+                  child: Column(children: [
+                    Image.network(widget.movie.poster),
+                    const Divider(),
+                    DetailsList(details: details)
+                  ]),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Scaffold(
+                appBar: AppBar(title: const Text("Error")),
+                body: Center(
+                  child: Text("${snapshot.error}"),
+                ),
+              );
+            } else {
+              return Scaffold(
+                appBar: AppBar(title: const Text("")),
+                body: const Center(child: CircularProgressIndicator()),
+              );
+            }
+          } else {
+            return Scaffold(
+                appBar: AppBar(
+                    title:
+                        Text("${widget.movie.title} - ${widget.movie.year}")),
+                body: SingleChildScrollView(
+                  child: Column(children: [
+                    Image.network(widget.movie.poster),
+                    const Divider(),
+                    if (snapshot.hasData)
+                      DetailsList(details: snapshot.data as MovieDetails)
+                    else
+                      Center(
+                        child: snapshot.hasError
+                            ? Text("${snapshot.error}")
+                            : const CircularProgressIndicator(),
+                      )
+                  ]),
+                ));
+          }
+        }));
   }
 }
