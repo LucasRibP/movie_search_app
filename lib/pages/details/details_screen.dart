@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_search_app/data/movie.dart';
 import 'package:movie_search_app/data/movie_details.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie_search_app/pages/details/details_header.dart';
 import 'package:movie_search_app/pages/details/details_list.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -82,8 +83,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     AppBar(title: Text("${details.title} - ${details.year}")),
                 body: SingleChildScrollView(
                   child: Column(children: [
-                    Image.network(widget.movie.poster),
-                    const Divider(),
+                    DetailsHeader(
+                        posterUrl: details.poster,
+                        title: details.title,
+                        year: details.year),
                     DetailsList(details: details)
                   ]),
                 ),
@@ -108,8 +111,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         Text("${widget.movie.title} - ${widget.movie.year}")),
                 body: SingleChildScrollView(
                   child: Column(children: [
-                    Image.network(widget.movie.poster),
-                    const Divider(),
+                    DetailsHeader(
+                        posterUrl: widget.movie.poster,
+                        title: widget.movie.title,
+                        year: widget.movie.year),
                     if (snapshot.hasData)
                       DetailsList(details: snapshot.data as MovieDetails)
                     else
