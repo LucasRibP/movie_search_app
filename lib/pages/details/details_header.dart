@@ -18,7 +18,10 @@ class DetailsHeader extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
-          child: Image.network(posterUrl),
+          child: Image.network(
+            posterUrl,
+            errorBuilder: ((context, error, stackTrace) => Container()),
+          ),
         ),
         const Divider(),
         Text(
