@@ -17,4 +17,9 @@ class MainPath {
   bool get isHomePage => imdbId == null && !isUnknown;
   bool get isDetailsPage => imdbId != null && !isUnknown;
   bool get isUnknownPage => isUnknown;
+
+  @override
+  String toString() {
+    return "MainPath(imdbId = $imdbId, isUnknown = $isUnknown)";
+  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_search_app/data/movie.dart';
 import 'package:movie_search_app/navigation/main_path.dart';
 import 'package:movie_search_app/navigation/routes/details_page.dart';
+import 'package:movie_search_app/navigation/routes/page_not_found_page.dart';
 import 'package:movie_search_app/navigation/routes/search_page.dart';
 
 class MainRouterDelegate extends RouterDelegate<MainPath>
@@ -20,7 +21,12 @@ class MainRouterDelegate extends RouterDelegate<MainPath>
     notifyListeners();
   }
 
-  bool show404 = false;
+  bool _show404 = false;
+  bool get show404 => _show404;
+  set show404(bool value) {
+    _show404 = value;
+    notifyListeners();
+  }
 
   @override
   MainPath get currentConfiguration =>
@@ -30,15 +36,22 @@ class MainRouterDelegate extends RouterDelegate<MainPath>
     selectedMovie = movie;
   }
 
+  goToHomePage() {
+    selectedMovie = null;
+    show404 = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     Movie? curSelectedMovie = selectedMovie;
     return Navigator(
       key: navigatorKey,
-      pages: [
-        SearchPage(onMovieTap: onMovieTap),
-        if (curSelectedMovie != null) DetailsPage(movie: curSelectedMovie)
-      ],
+      pages: show404
+          ? [PageNotFoundPage(goToHomePage: goToHomePage)]
+          : [
+              SearchPage(onMovieTap: onMovieTap),
+              if (curSelectedMovie != null) DetailsPage(movie: curSelectedMovie)
+            ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) return false;
         selectedMovie = null;
