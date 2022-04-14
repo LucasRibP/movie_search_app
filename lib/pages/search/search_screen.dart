@@ -77,6 +77,35 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 
+  Future<List<Movie>> requestMoreMoviesIfPossible(int page) async {
+    String query =
+        "http://www.omdbapi.com/?apikey=$_omdbKey&s=$curSearchQuery&type=movie&v=1&page=$page";
+    List<Movie> movieList;
+
+    final response = await http.get(Uri.parse(query));
+
+    try {
+      final json = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        if (json["Response"] == "True") {
+          List results = json["Search"];
+          movieList = results
+              .map((movie) => Movie.fromJson(movie))
+              .toList(growable: false);
+        } else {
+          movieList = [];
+        }
+      } else {
+        movieList = [];
+      }
+    } catch (e) {
+      movieList = [];
+    }
+
+    return movieList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +134,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                 return Text(errorMessage);
                               } else {
                                 return SearchList(
-                                    movies: movies,
+                                    requestMoreMoviesIfPossible:
+                                        requestMoreMoviesIfPossible,
+                                    initialMovies: movies,
                                     onMovieTap: widget.onMovieTap);
                               }
                             } else if (snapshot.hasError) {
