@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
+// import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:movie_search_app/navigation/main_router_delegate.dart';
 import 'package:movie_search_app/navigation/main_router_parser.dart';
 
 void main() {
-  usePathUrlStrategy();
+  // I commented this line below because github pages only supports hash routing
+  // usePathUrlStrategy();
   runApp(const MyApp());
 }
 
