@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'MovieSearchApp',
       theme: ThemeData(
           primaryColor: const Color.fromARGB(255, 167, 37, 27),
           appBarTheme:
