@@ -40,7 +40,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
 
     String query =
-        "http://www.omdbapi.com/?apikey=$_omdbKey&i=$imdbId&v=1&plot=full";
+        "https://www.omdbapi.com/?apikey=$_omdbKey&i=$imdbId&v=1&plot=full";
     String err = "";
     MovieDetails? movieDetails;
 

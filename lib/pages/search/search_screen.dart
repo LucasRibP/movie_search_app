@@ -38,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Future<List<Movie>> fetchMovieSearch(String searchQuery) async {
     String query =
-        "http://www.omdbapi.com/?apikey=$_omdbKey&s=$searchQuery&type=movie&v=1";
+        "https://www.omdbapi.com/?apikey=$_omdbKey&s=$searchQuery&type=movie&v=1";
     String err = "";
     List<Movie> movieList = [];
 
@@ -79,7 +79,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Future<List<Movie>> requestMoreMoviesIfPossible(int page) async {
     String query =
-        "http://www.omdbapi.com/?apikey=$_omdbKey&s=$curSearchQuery&type=movie&v=1&page=$page";
+        "https://www.omdbapi.com/?apikey=$_omdbKey&s=$curSearchQuery&type=movie&v=1&page=$page";
     List<Movie> movieList;
 
     final response = await http.get(Uri.parse(query));
