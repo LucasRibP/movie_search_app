@@ -2,8 +2,8 @@
 
 A Flutter project with the intent of practicing the following skills:
 
-- [x] Comunicação com APIs
-- [x] Navegação entre Telas
+- [x] API Communication
+- [x] Navigation 2.0
 - [x] Basic Layouting
 - [x] Async/Await
 
